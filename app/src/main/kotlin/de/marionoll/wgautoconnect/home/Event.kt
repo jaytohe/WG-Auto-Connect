@@ -43,5 +43,6 @@ sealed interface Event {
         }
     }
 
+    data object InverseModeToggle : Event
     data object WireGuardClick : Event
 }

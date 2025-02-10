@@ -2,6 +2,7 @@ package de.marionoll.wgautoconnect.home
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import de.marionoll.wgautoconnect.home.features.inversemode.InverseModeViewModel
 import de.marionoll.wgautoconnect.home.features.network.NetworkViewModel
 import de.marionoll.wgautoconnect.home.features.vpn.VPNViewModel
 import kotlinx.coroutines.flow.Flow
@@ -13,6 +14,7 @@ class HomeViewModel
 @Inject constructor(
     private val vpnViewModel: VPNViewModel,
     private val networkViewModel: NetworkViewModel,
+    private val inverseModeViewModel : InverseModeViewModel,
     private val intentNavigator: IntentNavigator,
 ) : ViewModel() {
 
@@ -20,10 +22,12 @@ class HomeViewModel
         return combine(
             networkViewModel.viewState,
             vpnViewModel.viewState,
-        ) { networkViewState, vpnViewState ->
+            inverseModeViewModel.viewState
+        ) { networkViewState, vpnViewState, inverseModeViewState ->
             HomeViewState.Content(
                 networkViewState = networkViewState,
                 vpnViewState = vpnViewState,
+                inverseModeViewState = inverseModeViewState
             )
         }
     }
@@ -40,6 +44,10 @@ class HomeViewModel
 
             Event.WireGuardClick -> {
                 intentNavigator.toWireGuardPlay()
+            }
+
+            Event.InverseModeToggle -> {
+                inverseModeViewModel.onEvent(event)
             }
         }
     }

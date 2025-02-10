@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import de.marionoll.wgautoconnect.home.ui.AutoConnect
+import de.marionoll.wgautoconnect.home.ui.InverseMode
 import de.marionoll.wgautoconnect.home.ui.SelectNetwork
 import de.marionoll.wgautoconnect.home.ui.guide.Guide
 
@@ -48,6 +49,13 @@ fun HomeScreenContent(
         AutoConnect(
             viewState = viewState,
             onEvent = onEvent,
+        )
+
+        Spacer(modifier = Modifier.size(32.dp))
+
+        InverseMode(
+            viewState = viewState,
+            onEvent = onEvent
         )
 
         Spacer(modifier = Modifier.size(24.dp))

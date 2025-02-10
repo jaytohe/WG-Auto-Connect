@@ -11,6 +11,7 @@ import de.marionoll.wgautoconnect.data.AutoConnectState
 import de.marionoll.wgautoconnect.data.SSID
 import de.marionoll.wgautoconnect.data.json.JsonDataStoreFactory
 import kotlinx.serialization.builtins.nullable
+import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
@@ -48,6 +49,16 @@ object DataModule {
             defaultValue = null,
             serializer = AutoConnectState.serializer().nullable,
             fileName = "auto_connect_state",
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun inverseModeDataStore(factory: JsonDataStoreFactory): DataStore<Boolean?> {
+        return factory.create(
+            defaultValue = null,
+            serializer = Boolean.serializer().nullable,
+            fileName = "inverse_mode_state",
         )
     }
 }
