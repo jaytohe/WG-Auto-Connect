@@ -16,6 +16,7 @@ class NetworkMonitorServiceHandler
 @Inject constructor(
     private val autoConnectStateDataStore: DataStore<AutoConnectState?>,
     private val trustedNetworkDataStore: DataStore<SSID?>,
+    private val inverseModeDataStore : DataStore<Boolean?>,
     @ApplicationContext
     private val context: Context,
     private val locationHelper: LocationHelper,
@@ -25,12 +26,14 @@ class NetworkMonitorServiceHandler
     suspend fun start() {
         val trustedNetwork = trustedNetworkDataStore.data.first() ?: return
         val autoConnectData = autoConnectStateDataStore.data.first() ?: return
+        val runOnConnectionEstablished = inverseModeDataStore.data.first() ?: return
         if (!autoConnectData.enabled) return
 
         if (!stopIfRequirementsNotMet()) {
             val intent = monitorServiceIntent.apply {
                 putExtra(NETWORK_MONITOR_SERVICE_NETWORK_KEY, trustedNetwork.value)
                 putExtra(NETWORK_MONITOR_SERVICE_TUNNEL_KEY, autoConnectData.tunnel.value)
+                putExtra(NETWORK_MONITOR_SERVICE_INVERTED_KEY, runOnConnectionEstablished)
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
