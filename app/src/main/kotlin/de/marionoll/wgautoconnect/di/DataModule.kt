@@ -54,10 +54,10 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun inverseModeDataStore(factory: JsonDataStoreFactory): DataStore<Boolean?> {
+    fun inverseModeDataStore(factory: JsonDataStoreFactory): DataStore<Boolean> {
         return factory.create(
-            defaultValue = null,
-            serializer = Boolean.serializer().nullable,
+            defaultValue = false,
+            serializer = Boolean.serializer(),
             fileName = "inverse_mode_state",
         )
     }

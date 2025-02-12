@@ -104,7 +104,7 @@ class NetworkMonitorService : Service() {
         if (monitorJob == null && intent != null) {
             network = intent.getStringExtra(NETWORK_MONITOR_SERVICE_NETWORK_KEY)!!
             tunnel = intent.getStringExtra(NETWORK_MONITOR_SERVICE_TUNNEL_KEY)!!
-            runOnConnectionEstablished = intent.getBooleanExtra(NETWORK_MONITOR_SERVICE_INVERTED_KEY, false)!!
+            runOnConnectionEstablished = intent.getBooleanExtra(NETWORK_MONITOR_SERVICE_INVERTED_KEY, false)
 
             monitorJob = scope.launch {
                 isWifiAvailable()
@@ -149,7 +149,7 @@ class NetworkMonitorService : Service() {
 
     private suspend fun checkWifiState(isWifiAvailable: Boolean) {
 
-        // If inversion mode is on, turn VPN off if the device is not connected to the Wi-Fi the user specified.
+        // If inversion mode is on, turn VPN off if the device is not connected to the Wi-Fi specified by the user.
         updateTunnel(
             if (isWifiAvailable) tunnelStateForWifi() else (if(runOnConnectionEstablished) TunnelState.Down else TunnelState.Up)
         )
